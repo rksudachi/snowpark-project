@@ -1,0 +1,44 @@
+DEV:
+  CONNECTION:
+    SNOWFLAKE_WAREHOUSE: DEV_WH
+    SNOWFLAKE_DATABASE: DEV_DB
+    SNOWFLAKE_SCHEMA: PUBLIC
+  LOGGING:
+    LOG_MIN_LEVEL: DEBUG
+    LOG_DIR: logs
+    LOG_FILE: dev_app
+    LOG_EXTENSION: .log
+    LOG_MAX_BYTES: 10485760
+    LOG_BACKUP_COUNT: 5
+    LOG_FORMAT: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+    LOG_ENCODING: utf-8
+
+STG:
+  CONNECTION:
+    SNOWFLAKE_WAREHOUSE: STG_WH
+    SNOWFLAKE_DATABASE: STG_DB
+    SNOWFLAKE_SCHEMA: PUBLIC
+  LOGGING:
+    LOG_MIN_LEVEL: INFO
+    LOG_DIR: logs
+    LOG_FILE: stg_app
+    LOG_EXTENSION: .log
+    LOG_MAX_BYTES: 10485760
+    LOG_BACKUP_COUNT: 5
+    LOG_FORMAT: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+    LOG_ENCODING: utf-8
+
+PRD:
+  CONNECTION:
+    SNOWFLAKE_WAREHOUSE: PROD_WH
+    SNOWFLAKE_DATABASE: PROD_DB
+    SNOWFLAKE_SCHEMA: PUBLIC
+  LOGGING:
+    LOG_MIN_LEVEL: ERROR
+    LOG_DIR: logs
+    LOG_FILE: prd_app
+    LOG_EXTENSION: .log
+    LOG_MAX_BYTES: 10485760
+    LOG_BACKUP_COUNT: 5
+    LOG_FORMAT: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+    LOG_ENCODING: utf-8

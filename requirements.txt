@@ -1,0 +1,6 @@
+snowflake-connector-python
+snowflake-snowpark-python
+python-dotenv
+pyyaml
+pydantic
+pydantic-settings

@@ -1,0 +1,34 @@
+# Python 仮想環境
+.venv/
+venv/
+
+# Byte-compiled / キャッシュ
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 環境変数ファイル
+# .env
+
+# ログファイル
+logs/
+*.log
+
+# VS Code ワークスペース設定
+# .vscode/
+
+# Pytest キャッシュ
+.pytest_cache/
+.coverage
+# Snowflake Snowpark ビルド成果物（あれば）
+.dist/
+build/
+*.egg-info/
+
+# OS やエディタ固有ファイル
+.DS_Store
+Thumbs.db
+
+# その他 IDE キャッシュ
+.idea/
+*.swp
