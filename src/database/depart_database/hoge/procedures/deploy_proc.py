@@ -1,15 +1,43 @@
 import sys
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, Template
 from snowflake.snowpark import DataFrame as Df
+import inspect
+
+from typing import Callable, Any
+
+
+def proc_x_impl():
+    temp = "{{DB_NAME}}.{{SCHEMA_NAME}}.{{TABLE_NAME}}"
+    print(f"テンプレート変数の値: {temp}")
+    print(f"{temp}のproc_a_implが実行されました。")
+    return temp
+
+
+def create_proc_x(func):
+    print(func())
+
+
+def render_template_x(func, variables):
+    """
+    指定されたファイルパスのテンプレートを変数でレンダリングします。
+
+    Args:
+        file_path (str): テンプレートファイルのパス。
+        variables (dict): テンプレートに渡す変数。
+
+    Returns:
+        str: レンダリングされたテンプレートの内容。
+    """
+    # env = Environment(loader=FileSystemLoader(searchpath="./"))
+    func_str = inspect.getsource(func)
+    template = Template(func_str)
+    return func.__name__, template.render(variables)
 
 
 def render_template(template_path, variables):
     env = Environment(loader=FileSystemLoader(searchpath="./"))
     template = env.get_template(template_path)
     return template.render(variables)
-
-
-from typing import Callable, Any
 
 
 def deploy_procedure(file_path, sproc_name, code) -> Callable[..., Any]:
@@ -84,8 +112,14 @@ if __name__ == "__main__":
     }
     code = render_template(file_path, variables)
 
+    codex_name, codex = render_template_x(proc_x_impl, variables)
+    print(f"Rendered code: {codex_name}, {codex}")
     import importlib.util
     import os
+
+    func_x_namespace = {}
+    exec(codex, func_x_namespace)
+    func_x = func_x_namespace[codex_name]
 
     module_name = os.path.splitext(os.path.basename(file_path))[0]
     spec = importlib.util.spec_from_file_location(module_name, file_path)
