@@ -5,10 +5,11 @@
       "name": "Debug my_proc",
       "type": "debugpy",
       "request": "launch",
-      "module": "src.main",
+      "program": "${file}",
+      // "module": "{{workspaceFolder}}/src/my_proc",
       "console": "integratedTerminal",
       "env": {
-          "PYTHONPATH": "${workspaceFolder}/src"
-      }
+          "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/deploy"
+      },
     }  ]
 }

@@ -26,12 +26,12 @@ def main():
     logger = Logger(settings.logging).get_logger()
     logger.info("Sprocメソッド一覧を取得します。")
 
-    # モジュールのインポート
-    # モジュールのパスを追加
-    module_path = os.path.join(
-        os.path.dirname(__file__), "..", "customer", "procedures"
-    )
-    sys.path.append(module_path)
+    # # モジュールのインポート
+    # # モジュールのパスを追加
+    # module_path = os.path.join(
+    #     os.path.dirname(__file__), "..", "customer", "procedures"
+    # )
+    # sys.path.append(module_path)
 
     # ログディレクトリの設定
     log_dir = settings.logging.log_dir

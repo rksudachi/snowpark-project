@@ -70,7 +70,7 @@ def merge_customer_master_impl(
     トランザクション管理付き
     """
     # 必要なクラスは関数内でimport
-    from src.database.depart_database.customer.logic.customer_master_logic import (
+    from src.database.depart_database.customer.logics.customer_master_logic import (
         CustomerMasterLogic,
     )
     from src.database.depart_database.customer.tables.customer_master_table import (
