@@ -1,6 +1,6 @@
 # from src.utils.config import settings
 from src.utils.rendering_result_interface import DBSchemaDictInterface
-from src.utils.generate_module_instance import import_and_instantiate
+from src.utils.generate_module import generate_module
 
 
 class DbSchemaSearch:
@@ -8,7 +8,7 @@ class DbSchemaSearch:
     class_name: str = "DBSchemaDict"
 
     def __init__(self):
-        self.db_schema_class: DBSchemaDictInterface = import_and_instantiate(
+        self.db_schema_class: DBSchemaDictInterface = generate_module(
             self.module_path, self.class_name
         )
 

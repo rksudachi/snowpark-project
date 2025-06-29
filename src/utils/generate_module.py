@@ -2,7 +2,7 @@ import importlib.util
 import os
 
 
-def import_and_instantiate(module_path: str, class_name: str):
+def generate_module(module_path: str, class_name: str):
     """
     指定したパスにモジュールが存在すればimportし、クラスからインスタンスを生成する
     """
