@@ -2,12 +2,13 @@ import yaml
 from jinja2 import Environment, FileSystemLoader
 
 
-def db_schemas_template_rendering():
+def db_schema_map_template_rendering():
     """
     Jinja2テンプレートを使用してDBスキーマのレンダリング結果を生成する関数
     """
 
-    template_render_file = "rendering_result.py"
+    template_render_file = "db_schema_map.py"
+    template_file = f"{template_render_file}.j2"
 
     # conf.ymlを読み込む
     with open(f"src/resources/config.yml", encoding="utf-8") as f:
@@ -33,7 +34,7 @@ def db_schemas_template_rendering():
     env = Environment(
         loader=FileSystemLoader("src/templates")
     )  # テンプレートファイルと同じディレクトリ
-    template = env.get_template(f"{template_render_file}.j2")
+    template = env.get_template(f"{template_file}")
 
     # テンプレートをレンダリング
     rendered = template.render(**render_dict)
@@ -48,5 +49,5 @@ def db_schemas_template_rendering():
 
 
 if __name__ == "__main__":
-    db_schemas_template_rendering()
+    db_schema_map_template_rendering()
     print("DBスキーマのレンダリング結果を生成しました。")

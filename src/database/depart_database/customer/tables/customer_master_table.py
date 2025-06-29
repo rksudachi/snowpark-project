@@ -5,11 +5,20 @@ from snowflake.snowpark.functions import (
     WhenMatchedClause,
     WhenNotMatchedClause,
 )
+from src.utils.db_schema_map_reader import DbSchemaMapReader
 
 
 class CustomerMasterTable(BaseTable):
     TABLE_NAME = "CUSTOMER_MASTER"
     ALLOWED_WRITE_MODES = {WriteMode.INSERT, WriteMode.MERGE}
+
+    @property
+    def database_key(self) -> str:
+        return "ANALYTICS"
+
+    @property
+    def schema_key(self) -> str:
+        return "PUBLIC"
 
     def __init__(self, session: Session, database: str, schema: str):
         super().__init__(session, database, schema)

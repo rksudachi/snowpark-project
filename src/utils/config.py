@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 # from pydantic_settings import BaseSettings
 from dataclasses import dataclass
-from src.utils.rendering import db_schemas_template_rendering
+from src.utils.rendering_db_schema_map import db_schema_map_template_rendering
 
 
 # .env から CONFIG_FILE_PATH も読み込む
@@ -174,6 +174,6 @@ def load_config(mode: str = "DEV") -> Settings:
 
 # 一度だけロード
 settings = load_config(mode=mode)
-db_schemas_template_rendering(
+db_schema_map_template_rendering(
     # settings=settings
 )  # DBスキーマのレンダリングを実行

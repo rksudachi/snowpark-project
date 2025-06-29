@@ -2,7 +2,7 @@ import importlib.util
 import os
 
 
-def generate_module(module_path: str, class_name: str):
+def generate_module(module_path: str, attr_name: str):
     """
     指定したパスにモジュールが存在すればimportし、クラスからインスタンスを生成する
     """
@@ -13,5 +13,5 @@ def generate_module(module_path: str, class_name: str):
     spec = importlib.util.spec_from_file_location(module_name, module_path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    cls = getattr(module, class_name)
+    cls = getattr(module, attr_name)
     return cls
