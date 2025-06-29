@@ -2,16 +2,39 @@ import os
 from pathlib import Path
 import yaml
 from dotenv import load_dotenv
-from pydantic_settings import BaseSettings
+
+# from pydantic_settings import BaseSettings
+from dataclasses import dataclass
+from src.utils.rendering import db_schemas_template_rendering
+
 
 # .env から CONFIG_FILE_PATH も読み込む
-dotenv_path = Path(__file__).parents[1] / ".env"
+dotenv_path = Path("src/.env")  # 環境変数ファイルのパス
+# dotenv_path = Path(__file__).parents[1] / ".env"
 load_dotenv(dotenv_path=dotenv_path)
 mode = os.getenv("MODE", "DEV")
+# resources_path = os.getenv(
+#     "RESOURCES_PATH", "src/resources"
+# )  # リソースディレクトリのパス
+# utils_path = os.getenv(
+#     "UTILS_PATH", "src/utils"
+# )  # ユーティリティディレクトリのパス
+# templates_path = os.getenv(
+#     "TEMPLATES_PATH", "src/templates"
+# )  # テンプレートディレクトリのパス
+# deploy_path = os.getenv("DEPLOY_PATH", "src")  # デプロイディレクトリのパス
+
+# # 生成されたファイルのパス
+# generated_path = os.getenv(
+#     "GENERATED_PATH", "src/generated"
+# )  # 生成されたファイルのパス
 
 
-class Settings(BaseSettings):
-    class ConnectionSettings(BaseSettings):
+@dataclass(frozen=True)
+class Settings:
+
+    @dataclass(frozen=True)
+    class ConnectionSettings:
         snowflake_account: str
         snowflake_user: str
         snowflake_role: str
@@ -21,13 +44,22 @@ class Settings(BaseSettings):
         snowflake_private_key_path: str
         # snowflake_private_key_passphrase: str = None
 
-    class LoggingSettings(BaseSettings):
+    @dataclass(frozen=True)
+    class LoggingSettings:
         log_dir: str
         log_max_bytes: int
         log_backup_count: int
         log_min_level: str
         log_file: str
         log_format: str
+
+    connection: ConnectionSettings
+    logging: LoggingSettings
+    # resources_path: str = resources_path
+    # utils_path: str = utils_path
+    # templates_path: str = templates_path
+    # deploy_path: str = deploy_path
+    # generated_path: str = generated_path
 
 
 def load_config(mode: str = "DEV") -> Settings:
@@ -77,6 +109,10 @@ def load_config(mode: str = "DEV") -> Settings:
             key, env_name, connection_cfg.get(key)
         )
 
+    connection_cfg["snowflake_warehouse"] = "hoge"
+    connection_cfg["snowflake_database"] = "fuga"
+    connection_cfg["snowflake_schema"] = "piyo"
+
     # 不要な大文字キーを削除
     for k in list(connection_cfg.keys()):
         if k.isupper():
@@ -84,33 +120,35 @@ def load_config(mode: str = "DEV") -> Settings:
 
     # logging_cfgも同様に小文字キーのみでセット
 
-    logging_cfg["log_dir"] = env_or_default(
-        "log_dir", "LOG_DIR", logging_cfg.get("log_dir")
+    logging_cfg_dict = dict()
+
+    logging_cfg_dict["log_dir"] = env_or_default(
+        "log_dir", "LOG_DIR", logging_cfg.get("LOG_DIR")
     )
-    logging_cfg["log_max_bytes"] = env_or_default(
+    logging_cfg_dict["log_max_bytes"] = env_or_default(
         "log_max_bytes",
         "LOG_MAX_BYTES",
-        logging_cfg.get("log_max_bytes"),
+        logging_cfg.get("LOG_MAX_BYTES"),
         cast=int,
     )
-    logging_cfg["log_backup_count"] = env_or_default(
+    logging_cfg_dict["log_backup_count"] = env_or_default(
         "log_backup_count",
         "LOG_BACKUP_COUNT",
-        logging_cfg.get("log_backup_count"),
+        logging_cfg.get("LOG_BACKUP_COUNT"),
         cast=int,
     )
-    logging_cfg["log_min_level"] = env_or_default(
-        "log_min_level", "LOG_MIN_LEVEL", logging_cfg.get("log_min_level")
+    logging_cfg_dict["log_min_level"] = env_or_default(
+        "log_min_level", "LOG_MIN_LEVEL", logging_cfg.get("LOG_MIN_LEVEL")
     )
-    logging_cfg["log_file"] = env_or_default(
-        "log_file", "LOG_FILE", logging_cfg.get("log_file")
+    logging_cfg_dict["log_file"] = env_or_default(
+        "log_file", "LOG_FILE", logging_cfg.get("LOG_FILE")
     )
-    logging_cfg["log_format"] = env_or_default(
-        "log_format", "LOG_FORMAT", logging_cfg.get("log_format")
+    logging_cfg_dict["log_format"] = env_or_default(
+        "log_format", "LOG_FORMAT", logging_cfg.get("LOG_FORMAT")
     )
 
     env_cfg["connection"] = connection_cfg
-    env_cfg["logging"] = logging_cfg
+    env_cfg["logging"] = logging_cfg_dict
 
     # 必須値チェック
     required_keys = [
@@ -129,10 +167,13 @@ def load_config(mode: str = "DEV") -> Settings:
             )
 
     return Settings(
-        connection=Settings.ConnectionSettings(**env_cfg["connection"]),
-        logging=Settings.LoggingSettings(**env_cfg["logging"]),
+        connection=Settings.ConnectionSettings(**connection_cfg),
+        logging=Settings.LoggingSettings(**logging_cfg_dict),
     )
 
 
 # 一度だけロード
 settings = load_config(mode=mode)
+db_schemas_template_rendering(
+    # settings=settings
+)  # DBスキーマのレンダリングを実行

@@ -2,9 +2,11 @@ import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from pydantic_settings import BaseSettings
+from dataclasses import dataclass
 
 
-class Logger(BaseSettings):
+@dataclass(frozen=True)
+class Logger:
     log_dir: Path = Path("logs")
     log_max_bytes: int = 10**6  # 1MB
     log_backup_count: int = 3

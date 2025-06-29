@@ -9,7 +9,7 @@
       // "module": "{{workspaceFolder}}/src/my_proc",
       "console": "integratedTerminal",
       "env": {
-          "PYTHONPATH": "${workspaceFolder}/src;${workspaceFolder}/deploy"
+          "PYTHONPATH": "${workspaceFolder}"
       },
     }  ]
 }

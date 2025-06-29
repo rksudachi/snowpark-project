@@ -89,6 +89,10 @@ def main():
     print(df)
 
 
+def prt(hoge="hoge"):
+    print(f"{hoge}が呼ばれました。")
+
+
 if __name__ == "__main__":
     # if len(sys.argv) != 3:
     #     print("Usage: python deploy_proc.py <file_path> <sproc_name>")

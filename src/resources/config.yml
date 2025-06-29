@@ -12,7 +12,16 @@ DEV:
     LOG_BACKUP_COUNT: 5
     LOG_FORMAT: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
     LOG_ENCODING: utf-8
-
+  DB: 
+    ANALYTICS: ANALYTICS_DEV
+    APP: APP_DEV
+  SCHEMAS:
+    ANALYTICS:
+      PUBLIC: PUBLIC_DEV
+      STAGING: STAGING_DEV
+    APP:
+      PUBLIC: PUBLIC_DEV
+      INTERNAL: INTERNAL_DEV
 STG:
   CONNECTION:
     SNOWFLAKE_WAREHOUSE: STG_WH
@@ -27,6 +36,16 @@ STG:
     LOG_BACKUP_COUNT: 5
     LOG_FORMAT: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
     LOG_ENCODING: utf-8
+    DB: 
+    ANALYTICS: ANALYTICS_DEV
+    APP: APP_DEV
+  SCHEMAS:
+    ANALYTICS:
+      PUBLIC: PUBLIC_DEV
+      STAGING: STAGING_DEV
+    APP:
+      PUBLIC: PUBLIC_DEV
+      INTERNAL: INTERNAL_DEV
 
 PRD:
   CONNECTION:
@@ -42,3 +61,13 @@ PRD:
     LOG_BACKUP_COUNT: 5
     LOG_FORMAT: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
     LOG_ENCODING: utf-8
+  DB: 
+    ANALYTICS: ANALYTICS_DEV
+    APP: APP_DEV
+  SCHEMAS:
+    ANALYTICS:
+      PUBLIC: PUBLIC_DEV
+      STAGING: STAGING_DEV
+    APP:
+      PUBLIC: PUBLIC_DEV
+      INTERNAL: INTERNAL_DEV
